@@ -33,11 +33,12 @@ plotData(X, y);
 hold on;
 
 % Labels and Legend
-xlabel('Microchip Test 1')
-ylabel('Microchip Test 2')
+xlabel('Microchip Test 1');
+ylabel('Microchip Test 2');
 
 % Specified in plot order
-legend('y = 1', 'y = 0')
+legend('y = 1', 'y = 0');
+title("Regulized Logistic Regression");
 hold off;
 
 
@@ -107,7 +108,10 @@ pause;
 initial_theta = zeros(size(X, 2), 1);
 
 % Set regularization parameter lambda to 1 (you should vary this)
-lambda = 1;
+lambda = 1; %
+%lambda = 0; % Overfit
+%lambda = 50; % Underfit
+%lambda = 100; % Underfit 
 
 % Set Options
 options = optimset('GradObj', 'on', 'MaxIter', 400);
@@ -131,6 +135,6 @@ hold off;
 % Compute accuracy on our training set
 p = predict(theta, X);
 
-fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
+fprintf('Train Accuracy: %.2f%%\n', mean(double(p == y)) * 100);
 fprintf('Expected accuracy (with lambda = 1): 83.1 (approx)\n');
 

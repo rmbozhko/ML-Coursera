@@ -15,11 +15,12 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
+z = X * theta;
+g = sigmoid(z);
 
-
-
-
-
+% if condtion apllies to certain element, it value will be replaced with the one on the right
+p(g >= 0.5) = 1;
+p(g < 0.5) = 0;
 
 % =========================================================================
 

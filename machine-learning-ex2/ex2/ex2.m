@@ -96,7 +96,12 @@ options = optimset('GradObj', 'on', 'MaxIter', 400);
 %  Run fminunc to obtain the optimal theta
 %  This function will return theta and the cost
 %  fminunc is an optimization solver that finds the minimum
-%  of an unconstrained function.
+%  of an unconstrained function, which is a function that have no bounds for values of thetas.
+%  But there is some optimization function, which set some limitations on values, which can be assigned to thetas.
+
+%To specify the actual function we are minimizing, we use a “short-hand”
+%for specifying functions with the @(t) ( costFunction(t, X, y) ) . This
+%creates a function, with argument t, which calls your costFunction.
 [theta, cost] = ...
 	fminunc(@(t)(costFunction(t, X, y)), initial_theta, options);
 
@@ -146,7 +151,7 @@ fprintf('Expected value: 0.775 +/- 0.002\n\n');
 % Compute accuracy on our training set
 p = predict(theta, X);
 
-fprintf('Train Accuracy: %f\n', mean(double(p == y)) * 100);
+fprintf('Train Accuracy: %.2f%%\n', mean(double(p == y)) * 100);
 fprintf('Expected accuracy (approx): 89.0\n');
 fprintf('\n');
 
