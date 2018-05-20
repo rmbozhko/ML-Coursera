@@ -109,7 +109,7 @@ initial_theta = zeros(size(X, 2), 1);
 
 % Set regularization parameter lambda to 1 (you should vary this)
 lambda = 1; %
-%lambda = 0; % Overfit
+lambda = 0; % Overfit
 %lambda = 50; % Underfit
 %lambda = 100; % Underfit 
 
