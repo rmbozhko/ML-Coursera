@@ -36,14 +36,22 @@ grad = zeros(size(theta));
 %           grad = grad + YOUR_CODE_HERE (using the temp variable)
 %
 
+z = X * theta;
+g = sigmoid(z);
+J = y' * log(g) + (1 - y)' * log(1 - g) ;
+J = -(J / m);
+% we null first value of theta matrix due to convention,
+% bias unit doesn't take part in regularization,
+% both for cost function and its derivative optimization function
 
+theta(1) = 0;
+J = J + ((lambda / (2 * m)) * sum(theta .^ 2));
+% or we could handle bias unit in regularization as follows and move theta(1) = 0 down, where it's needed
+%J = J + ((lambda / (2 * m)) * sum(theta(2:end, :) .^ 2));
 
-
-
-
-
-
-
+grad = ((g - y)' * X)';
+grad = grad / m;
+grad = grad + ((lambda / m) * theta); 
 
 % =============================================================
 

@@ -6,15 +6,17 @@ function [h, display_array] = displayData(X, example_width)
 
 % Set example_width automatically if not passed in
 if ~exist('example_width', 'var') || isempty(example_width) 
-	example_width = round(sqrt(size(X, 2)));
-end
+	% size(matrix_name, 1) returns number of rows in matrix_name
+  % size(matrix_name, 2) returns number of columns in matrix_name
+  example_width = round(sqrt(size(X, 2))); % retrieve the original size of image - 20px
+ end
 
 % Gray Image
 colormap(gray);
 
 % Compute rows, cols
 [m n] = size(X);
-example_height = (n / example_width);
+example_height = (n / example_width); % retrieve the original size of image - 20px
 
 % Compute number of items to display
 display_rows = floor(sqrt(m));
