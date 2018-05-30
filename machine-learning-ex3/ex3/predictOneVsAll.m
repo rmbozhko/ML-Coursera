@@ -1,4 +1,4 @@
-function p = predictOneVsAll(all_theta, X)
+function p = predictOneVsAll(all_theta, X, vectorized_version)
 %PREDICT Predict the label for a trained one-vs-all classifier. The labels 
 %are in the range 1..K, where K = size(all_theta, 1). 
 %  p = PREDICTONEVSALL(all_theta, X) will return a vector of predictions
@@ -30,11 +30,28 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
-
-
-
-
+if ~exist('vectorized_version', 'var') || isempty(vectorized_version) || !vectorized_version
+  fprintf("Iterative version is choosen");
+  % iterative version of code below
+  for i = 1:m
+    prediction = 0.0;
+    class = 1;
+    for k = 1:num_labels
+      z = all_theta(k, :) * (X(i, :)');
+      g = sigmoid(z);
+      if (g > prediction)
+        class = k;
+        prediction = g;
+       end
+     end
+     p(i) = class;
+   end
+else
+  fprintf("Vectorized version is choosen");
+  % vectorized version of code above
+  temp = X * (all_theta');
+  [max_values, p] = max(temp, [], 2);
+end
 
 % =========================================================================
 

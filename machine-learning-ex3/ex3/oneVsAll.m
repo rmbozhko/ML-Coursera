@@ -8,8 +8,7 @@ function [all_theta] = oneVsAll(X, y, num_labels, lambda)
 %   to the classifier for label i
 
 % Some useful variables
-m = size(X, 1);
-n = size(X, 2);
+[m n] = size(X);
 
 % You need to return the following variables correctly 
 all_theta = zeros(num_labels, n + 1);
@@ -49,15 +48,24 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
+options = optimset('GradObj', 'on', 'MaxIter', 100);
+init_theta = zeros(n + 1, 1);
 
+% time utility, returns a matrix of date and time
+t0 = clock();
 
+for j = 1:num_labels
+  % passing hook of the function 't' as first arg, dataset with features as second
+  % logical matrix of certain class(j) = 1, all others = 0
+  % lambda for regularization term as we'll be processing function with reg. term
+  % thetas with zero values as default, and options
+ [new_theta] = fmincg(@(t)(lrCostFunction(t, X, (y == j), lambda)), init_theta, options);
+ % inserting new_thetas into an matrix of all_thetas
+ all_theta(j, :) = new_theta;
+end
 
-
-
-
-
-
-
+% etime returns difference between first and second parameters
+fprintf("Time used to find thetas: %.2f secs\n", etime(clock(), t0));
 
 
 % =========================================================================

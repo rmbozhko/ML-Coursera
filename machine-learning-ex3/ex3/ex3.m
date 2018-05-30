@@ -82,7 +82,10 @@ pause;
 
 %% ================ Part 3: Predict for One-Vs-All ================
 
-pred = predictOneVsAll(all_theta, X);
+% 1-st arg: thetas for each classifier
+% 2-nd arg: data with features without bias unit
+% 3-rd arg: bool for vectorized_version of prediction, if false passed iterative will handle search
+pred = predictOneVsAll(all_theta, X, true);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
