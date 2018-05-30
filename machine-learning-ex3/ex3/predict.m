@@ -21,11 +21,17 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% adding bias unit
+X = [ones(size(X, 1), 1) X];
+% trigering activation sigmoid function on activation units
+a2 = sigmoid(Theta1 * X');
+% adding bias unit
+a2 = [ones(1, size(a2, 2)); a2];
+% trigering activation sigmoid function on activation units
+a3 = sigmoid(Theta2 * a2)';
 
-
-
-
-
+% passing to p matrix most possible classes
+[max_values, p] = max(a3, [], 2);
 
 
 
