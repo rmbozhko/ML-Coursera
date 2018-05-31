@@ -31,7 +31,7 @@ X = [ones(m, 1) X];
 %       
 
 if ~exist('vectorized_version', 'var') || isempty(vectorized_version) || !vectorized_version
-  fprintf("Iterative version is choosen");
+  fprintf("Iterative version is choosen\n");
   % iterative version of code below
   for i = 1:m
     prediction = 0.0;
@@ -47,7 +47,7 @@ if ~exist('vectorized_version', 'var') || isempty(vectorized_version) || !vector
      p(i) = class;
    end
 else
-  fprintf("Vectorized version is choosen");
+  fprintf("Vectorized version is choosen\n");
   % vectorized version of code above
   temp = X * (all_theta');
   [max_values, p] = max(temp, [], 2);
