@@ -79,6 +79,31 @@ for i = 1:size(X, 1)
  
 J = -(sum(J) / m);
 
+
+% Iterative version of regularization
+%Theta1_sum = 0;
+%for i = 2:input_layer_size
+%  for j = 1:hidden_layer_size
+%    Theta1_sum = Theta1_sum + (Theta1(j, i) ^ 2);
+%    endfor;
+%  endfor;
+
+%Theta2_sum = 0;
+% hidden_layer_size = 25, so we add + 1 to be equal 26(with bias unit at the beginning)
+% and then starts from second column omitting bias-unit column
+%for i = 2:hidden_layer_size + 1
+%  for j = 1:num_labels
+%    Theta2_sum = Theta2_sum + (Theta2(j, i) ^ 2);
+%    endfor;
+% endfor;
+ 
+% Vectorized version of regularization
+Theta1_sum = sum(sum(Theta1(:, 2:end) .^ 2));
+Theta2_sum = sum(sum(Theta2(:, 2:end) .^ 2));
+temp = (Theta1_sum + Theta2_sum);
+temp = ((lambda * temp) / (2 * m));
+J = J + temp;
+
 % -------------------------------------------------------------
 
 % =========================================================================

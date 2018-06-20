@@ -17,13 +17,11 @@ W = zeros(L_out, 1 + L_in);
 %               training the neural network.
 %
 % Note: The first column of W corresponds to the parameters for the bias unit
-%
+%         which is defined in X variable
 
-
-
-
-
-
+epsilum = sqrt(6) / ( sqrt(L_in) + sqrt(L_out) );
+% + 1 near L_in stands for bias units thetas adding
+W = rand(L_out, L_in + 1) * (2 * epsilum) - epsilum;
 
 
 
