@@ -58,7 +58,7 @@ Theta2_grad = zeros(size(Theta2));
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
-%         Hint: You can implement this around the code for
+%         Hint: You can Theta2_grad' + implement this around the code for
 %               backpropagation. That is, you can compute the gradients for
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
@@ -69,7 +69,7 @@ a1 = sigmoid( X * Theta1' );
 a1 = [ones(size(a1, 1), 1) a1];
 a2 = sigmoid( a1 * Theta2' ); % calculating h(x) -> m X num_labels
 
-for i = 1:size(X, 1)
+for i = 1:m
   for j = 1:num_labels
     temp_y = zeros(size(y));
     temp_y(y == j) = 1;
@@ -103,6 +103,25 @@ Theta2_sum = sum(sum(Theta2(:, 2:end) .^ 2));
 temp = (Theta1_sum + Theta2_sum);
 temp = ((lambda * temp) / (2 * m));
 J = J + temp;
+
+for i = 1:m
+  z1 = X(i, :) * Theta1';
+  z1 = [ones(size(z1, 1), 1) z1];
+  a1 = sigmoid(z1);
+  z2 = a1 * Theta2';
+  a2 = sigmoid(z2);
+  % Code above performs element-wise feedforward propagation
+  errDelta3 = zeros(num_labels, 1);
+  for k = 1:num_labels
+    temp_y = zeros(size(y));
+    temp_y(y == k) = 1;
+    errDelta3(k, :) = a2(k) - temp_y(i);
+    endfor
+  errDelta2 = Theta2' * (errDelta3 .* sigmoidGradient(z2)');
+  errDelta2 = errDelta2(2:end);
+%  Theta1_grad = Theta1_grad' + (errDelta2 * a1');
+  Theta2_grad = Theta2_grad' + (errDelta3 * a2);
+  endfor
 
 % -------------------------------------------------------------
 
