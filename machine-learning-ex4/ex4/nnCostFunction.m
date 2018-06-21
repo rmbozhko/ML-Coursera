@@ -117,11 +117,23 @@ for i = 1:m
     temp_y(y == k) = 1;
     errDelta3(k, :) = a2(k) - temp_y(i);
     endfor
-  errDelta2 = Theta2' * (errDelta3 .* sigmoidGradient(z2)');
-  errDelta2 = errDelta2(2:end);
-%  Theta1_grad = Theta1_grad' + (errDelta2 * a1');
-  Theta2_grad = Theta2_grad' + (errDelta3 * a2);
+  lol = (Theta2' * errDelta3);
+  lol = lol(2:end, :); % skipping bias unit
+  errDelta2 = ( lol .* sigmoidGradient(z1(:, 2:end))');
+  Theta1_grad = Theta1_grad + (errDelta2 * X(i, :));
+  Theta2_grad = Theta2_grad + (errDelta3 * a1);
   endfor
+  Theta1_grad = (Theta1_grad / m);
+  Theta2_grad = (Theta2_grad / m);
+  % applying regularization term
+  reg_1 = (lambda * Theta1) / m;
+  reg_1(:, 1) = zeros(size(reg_1, 1), 1);
+  Theta1_grad = Theta1_grad + reg_1;
+  
+  reg_2 = (lambda * Theta2) / m;
+  reg_2(:, 1) = zeros(size(reg_2, 1), 1);
+  Theta2_grad = Theta2_grad + reg_2;
+  
 
 % -------------------------------------------------------------
 
